@@ -94,8 +94,9 @@ public final class Keyboard {
 		} catch (NumberFormatException e) {
 			textField.setText("Input Integer");
 		}
-		if(!(Integer.parseInt(textField.getText()) < min && Integer.parseInt(textField.getText()) > max)) {
-			String trash = String.valueOf(Integer.parseInt(textField.getText()) + "");
+		if(Integer.parseInt(textField.getText()) < min || Integer.parseInt(textField.getText()) > max) {
+			System.out.println(Integer.parseInt(textField.getText()));
+			String trash = "trash";
 			try {
 				Integer.parseInt(trash);
 			} catch (NumberFormatException e2) {

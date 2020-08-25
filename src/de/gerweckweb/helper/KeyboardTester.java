@@ -13,6 +13,11 @@ public class KeyboardTester {
 
 		System.out.println("You entered tha Value: " + intInput);
 
+		SimpleGui gui = new SimpleGui("tester");
+		gui.setSize(100,100);
+		gui.setVisible(true);
+
+
 	}
 
 }
