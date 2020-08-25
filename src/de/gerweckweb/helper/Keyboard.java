@@ -1,5 +1,6 @@
 package de.gerweckweb.helper;
 
+import javax.swing.*;
 import java.util.Scanner;
 
 public final class Keyboard {
@@ -35,7 +36,7 @@ public final class Keyboard {
 		String strInput;
 		boolean isValid = false;
 		// keep looking until valid userinput
-		while (isValid == false) {
+		while (!isValid) {
 			// prompt the user
 			System.out.println(promptMsg);
 			// grab input from Keyboard
@@ -79,4 +80,45 @@ public final class Keyboard {
 //		return num;
 //	}
 
+	/**
+	 *
+	 * @param textField check this textField for valid Input (Integer) between min, max
+	 * @return only Integer are possible
+	 */
+	public static int guiReadInt(JTextField textField, int min, int max){
+		// keep looking until valid userinput
+		// try to convert String to int
+		try {
+			Integer.parseInt(textField.getText());
+
+		} catch (NumberFormatException e) {
+			textField.setText("Input Integer");
+		}
+		if(!(Integer.parseInt(textField.getText()) < min && Integer.parseInt(textField.getText()) > max)) {
+			String trash = String.valueOf(Integer.parseInt(textField.getText()) + "");
+			try {
+				Integer.parseInt(trash);
+			} catch (NumberFormatException e2) {
+				textField.setText("Integer between " + min + " & " + max);
+			}
+		}
+		return Integer.parseInt(textField.getText());
+	}
+
+	/**
+	 *
+	 * @param textField check this textField for valid Input (Integer)
+	 * @return only Integer are possible
+	 */
+	public static int guiReadInt(JTextField textField){
+		// keep looking until valid userinput
+		// try to convert String to int
+		try {
+			Integer.parseInt(textField.getText());
+
+		} catch (NumberFormatException e) {
+			textField.setText("Input Integer");
+		}
+		return Integer.parseInt(textField.getText());
+	}
 }
