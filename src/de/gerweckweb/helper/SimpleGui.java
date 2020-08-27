@@ -33,7 +33,8 @@ public class SimpleGui extends JFrame implements ActionListener{
     }
 
     public void actionPerformed(ActionEvent e) {
-        Keyboard.guiReadInt(text,2,3);
+        //Keyboard.guiReadInt(text,2,3);
+        Keyboard.guiReadDouble(text,3.0, 15.0);
         label.setText(text.getText());
     }
 }
