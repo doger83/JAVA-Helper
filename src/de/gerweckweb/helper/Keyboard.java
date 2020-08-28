@@ -1,5 +1,7 @@
 package de.gerweckweb.helper;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.Scanner;
 
 import javax.swing.JTextField;
@@ -10,9 +12,7 @@ public final class Keyboard {
 	 * Ask the user to input a number. Returns an integer value.
 	 * 
 	 * @param promptMsg Output for request a specified Input
-	 * @param errorMsg  Output tells user the errors
-	 * @param low       determines the smallest number
-	 * @param high      determines the largest number
+	 * @param errorMsg  Output tells user the error
 	 * @return num The valid whole number entry
 	 * @author domininic gerweck
 	 */
@@ -27,6 +27,8 @@ public final class Keyboard {
 			System.out.println(promptMsg);
 			// grab input from Keyboard
 			strInput = input.nextLine();
+			//check for keyword
+			tryKeyword(strInput.toUpperCase());
 			// try to convert String to int
 			try {
 				num = Integer.parseInt(strInput);
@@ -62,81 +64,11 @@ public final class Keyboard {
 			System.out.printf("(%d - %d)\n", low, high);
 			// grab input from Keyboard
 			strInput = input.nextLine();
+			//check for keyword
+			tryKeyword(strInput.toUpperCase());
 			// try to convert String to int
 			try {
 				num = Integer.parseInt(strInput);
-				// check if input is in the right range
-				if (num >= low && num <= high) {
-					input.close();
-					isValid = true;
-				} else {
-					System.out.println(errorMsg);
-				}
-			} catch (NumberFormatException e) {
-				System.out.println(errorMsg);
-			}
-		}
-
-		return num;
-	}
-
-	/**
-	 * Asks the user to input a number. returns an double value.
-	 * 
-	 * @param promptMsg Output for request a specified Input
-	 * @param errorMsg  Output tells user the errors
-	 * @return num The valid floatingpoint number entry
-	 * @author dominic gerweck
-	 */
-	public static double readDouble(String promptMsg, String errorMsg) {
-		Scanner input = new Scanner(System.in);
-		double num = 0.0;
-		String strInput;
-		boolean isValid = false;
-		// keep looking until valid userinput
-		while (isValid == false) {
-			// prompt the user
-			System.out.println(promptMsg);
-			// grab input from Keyboard
-			strInput = input.nextLine();
-			// try to convert String to int
-			try {
-				num = Double.parseDouble(strInput);
-				input.close();
-				isValid = true;
-			} catch (NumberFormatException e) {
-				System.out.println(errorMsg);
-			}
-		}
-		return num;
-	}
-
-	/**
-	 * Asks the user to input a number in a given range. returns an double value.
-	 * 
-	 * @param promptMsg Output for request a specified Input
-	 * @param errorMsg  Output tells user the errors
-	 * @param low       determines the smallest number
-	 * @param high      determines the largest number
-	 * @return num The valid floatingpoint number entry
-	 * @author dominic gerweck
-	 */
-	public static double readDouble(String promptMsg, String errorMsg, double low, double high) {
-		// TODO check if low is lower than hight!
-		Scanner input = new Scanner(System.in);
-		double num = 0;
-		String strInput;
-		boolean isValid = false;
-		// keep looking until valid userinput
-		while (!isValid) {
-			// prompt the user
-			System.out.println(promptMsg);
-			System.out.printf("(%.2f - %.2f)\n", low, high);
-			// grab input from Keyboard
-			strInput = input.nextLine();
-			// try to convert String to int
-			try {
-				num = Double.parseDouble(strInput);
 				// check if input is in the right range
 				if (num >= low && num <= high) {
 					input.close();
@@ -161,6 +93,8 @@ public final class Keyboard {
 	 */
 	public static int guiReadInt(JTextField textField, int min, int max) {
 		// keep looking until valid userinput
+		//check for keyword
+		tryKeyword(textField.getText().toUpperCase());
 		// try to convert String to int
 		try {
 			Integer.parseInt(textField.getText());
@@ -188,6 +122,8 @@ public final class Keyboard {
 	 */
 	public static int guiReadInt(JTextField textField) {
 		// keep looking until valid userinput
+		//check for keyword
+		tryKeyword(textField.getText().toUpperCase());
 		// try to convert String to int
 		try {
 			Integer.parseInt(textField.getText());
@@ -217,6 +153,8 @@ public final class Keyboard {
 			System.out.println(promptMsg);
 			// grab input from Keyboard
 			strInput = input.nextLine();
+			//check for keyword
+			tryKeyword(strInput.toUpperCase());
 			// try to convert String to int
 			try {
 				num = Double.parseDouble(strInput);
@@ -252,6 +190,8 @@ public final class Keyboard {
 			System.out.println(promptMsg);
 			// grab input from Keyboard
 			strInput = input.nextLine();
+			//check for keyword
+			tryKeyword(strInput.toUpperCase());
 			// try to convert String to int
 			try {
 				num = Double.parseDouble(strInput);
@@ -272,6 +212,8 @@ public final class Keyboard {
 	 */
 	public static double guiReadDouble(JTextField textField, double min, double max){
 		// keep looking until valid userinput
+		//check for keyword
+		tryKeyword(textField.getText().toUpperCase());
 		// try to convert String to int
 		try {
 			Double.parseDouble(textField.getText());
@@ -298,6 +240,8 @@ public final class Keyboard {
 	 */
 	public static Double guiReadDouble(JTextField textField){
 		// keep looking until valid userinput
+		//check for keyword
+		tryKeyword(textField.getText().toUpperCase());
 		// try to convert String to int
 		try {
 			Double.parseDouble(textField.getText());
@@ -306,5 +250,34 @@ public final class Keyboard {
 			textField.setText("Input Integer");
 		}
 		return Double.parseDouble(textField.getText());
+	}
+
+	/**
+	 *
+	 * tryKeyword takes over the param text and checks whether it is a keyword
+	 * in order to then start the Keyword - method doAnything()
+	 *
+	 * @param text input is checked for keywords
+	 */
+	public static void tryKeyword(String text){
+		text = text.toUpperCase();
+		if(contains(text)) {
+			Keywords.valueOf(text.toUpperCase()).doAnything();
+		}
+
+	}
+
+	/**
+	 *
+	 * @param text Input is checked for keywords
+	 * @return is present in keywords
+	 */
+	public static boolean contains(String text) {
+		for (Keywords c : Keywords.values()) {
+			if (c.name().equals(text)) {
+				return true;
+			}
+		}
+		return false;
 	}
 }
