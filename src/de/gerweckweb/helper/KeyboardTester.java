@@ -1,13 +1,8 @@
 package de.gerweckweb.helper;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.util.Arrays;
-
 public class KeyboardTester {
 
-    public static void main(String[] args) throws IOException, URISyntaxException {
-        Keyboard kb = new Keyboard();
+    public static void main(String[] args) {
 
         //int intInput;
         //String promptMsg1 = "Enter an Integer Value: ";
@@ -22,14 +17,14 @@ public class KeyboardTester {
         //gui.setVisible(true);
 
 
-        /**
-         * Versuche Keywords zu verarbeiten
-         */
-        String d = "RESTART";
-        String e = "EXIT";
-
-        Keywords key;
-        System.out.println(Arrays.toString(Keywords.values()));
+        //
+        //try Keywords
+        //
+//        String d = "RESTART";
+//        String e = "EXIT";
+//
+//        Keywords key;
+//        System.out.println(Arrays.toString(Keywords.values()));
         //try {
         //	key = Keywords.valueOf(d);
         //	System.out.println("  sd");
@@ -48,6 +43,8 @@ public class KeyboardTester {
 
         int a = Keyboard.readInteger("Enter a Integer", "no Keyword / no Integer");
         System.out.println(a);
+
+
 
     }
 

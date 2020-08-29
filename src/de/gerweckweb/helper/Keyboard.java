@@ -1,7 +1,5 @@
 package de.gerweckweb.helper;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
 import java.util.Scanner;
 
 import javax.swing.JTextField;
