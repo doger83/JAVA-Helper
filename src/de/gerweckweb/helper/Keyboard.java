@@ -1,5 +1,6 @@
 package de.gerweckweb.helper;
 
+import java.io.IOException;
 import java.util.Scanner;
 
 import javax.swing.JTextField;
@@ -260,7 +261,11 @@ public final class Keyboard {
 	public static void tryKeyword(String text){
 		text = text.toUpperCase();
 		if(contains(text)) {
-			Keywords.valueOf(text.toUpperCase()).doAnything();
+			try {
+				Keywords.valueOf(text.toUpperCase()).doAnything();
+			} catch (IOException ioException) {
+				ioException.printStackTrace();
+			}
 		}
 	}
 

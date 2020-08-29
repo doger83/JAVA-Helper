@@ -1,5 +1,7 @@
 package de.gerweckweb.helper;
 
+import java.io.IOException;
+
 /**
  * Created with IntelliJ IDEA,
  * User: corat
@@ -13,12 +15,19 @@ public enum Keywords {
         }
     },
     RESTART {
-        public void doAnything() {
+        public void doAnything() throws IOException {
             System.out.println("restart");
-            RestartApp restart = new RestartApp();
             String[] params = {};
-            RestartApp.restart(new String[]{});
-
+            RestartApplications.restartApplication(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        KeyboardTester.main(new String[]{""});
+                    } catch (IOException ioException) {
+                        ioException.printStackTrace();
+                    }
+                }
+            });
         }
     },
     CLEAR {
@@ -27,7 +36,7 @@ public enum Keywords {
         }
     };
 
-    abstract void doAnything();
+    abstract void doAnything() throws IOException;
 
 
 

@@ -1,8 +1,10 @@
 package de.gerweckweb.helper;
 
+import java.io.IOException;
+
 public class KeyboardTester {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
 
         //int intInput;
         //String promptMsg1 = "Enter an Integer Value: ";
@@ -19,32 +21,7 @@ public class KeyboardTester {
 
 
 //try Keywords
-
-        //String d = "RESTART";
-        //String e = "EXIT";
-//
-        //Keywords key;
-        //System.out.println(Arrays.toString(Keywords.values()));
-        //try {
-        //	key = Keywords.valueOf(d);
-        //	System.out.println("  sd");
-        //	key.doAnything();
-        //} catch (IllegalArgumentException illegalArgumentException) {
-        //	illegalArgumentException.printStackTrace();
-        //}
-        //try {
-        //	key = Keywords.valueOf(e.toUpperCase());
-        //	key.doAnything();
-        //}
-        //catch (IllegalArgumentException ex){
-        //	System.out.println(ex.getMessage());
-        //}
-
-
-        //int a = Keyboard.readInteger("Zahl oder Keyword", "no");
-        System.out.println("2222222");
-        Keywords.valueOf("RESTART").doAnything();
-
+        int a = Keyboard.readInteger("Zahl oder Keyword", "no");
+        System.out.println(a);
     }
-
 }
