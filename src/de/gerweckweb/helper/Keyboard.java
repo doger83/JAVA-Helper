@@ -264,7 +264,6 @@ public final class Keyboard {
 		if(contains(text)) {
 			Keywords.valueOf(text.toUpperCase()).doAnything();
 		}
-
 	}
 
 	/**

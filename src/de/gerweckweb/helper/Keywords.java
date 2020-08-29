@@ -7,9 +7,21 @@ package de.gerweckweb.helper;
  * Time: 14:41
  */
 public enum Keywords {
-    EXIT { public void doAnything(  ) { System.exit(0); } },
-    RESTART  { public void doAnything()  { System.out.println("RESTART"); } },
-    CLEAR  { public void doAnything() { System.out.println("CLEAR"); } };
+    EXIT {
+        public void doAnything() {
+            System.exit(0);
+        }
+    },
+    RESTART {
+        public void doAnything() {
+            System.out.println("RESTART");
+        }
+    },
+    CLEAR {
+        public void doAnything() {
+            System.out.println("CLEAR");
+        }
+    };
 
     abstract void doAnything();
 
