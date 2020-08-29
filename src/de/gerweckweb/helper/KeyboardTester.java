@@ -17,14 +17,14 @@ public class KeyboardTester {
         //gui.setVisible(true);
 
 
-        //
-        //try Keywords
-        //
-//        String d = "RESTART";
-//        String e = "EXIT";
+
+//try Keywords
+
+        //String d = "RESTART";
+        //String e = "EXIT";
 //
-//        Keywords key;
-//        System.out.println(Arrays.toString(Keywords.values()));
+        //Keywords key;
+        //System.out.println(Arrays.toString(Keywords.values()));
         //try {
         //	key = Keywords.valueOf(d);
         //	System.out.println("  sd");
@@ -41,10 +41,8 @@ public class KeyboardTester {
         //}
 
 
-        int a = Keyboard.readInteger("Enter a Integer", "no Keyword / no Integer");
+        int a = Keyboard.readInteger("EXIT?", "no");
         System.out.println(a);
-
-
 
     }
 

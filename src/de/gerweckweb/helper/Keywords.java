@@ -15,6 +15,7 @@ public enum Keywords {
     RESTART {
         public void doAnything() {
             System.out.println("RESTART");
+
         }
     },
     CLEAR {
