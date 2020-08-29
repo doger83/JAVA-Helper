@@ -41,8 +41,9 @@ public class KeyboardTester {
         //}
 
 
-        int a = Keyboard.readInteger("EXIT?", "no");
-        System.out.println(a);
+        //int a = Keyboard.readInteger("Zahl oder Keyword", "no");
+        System.out.println("2222222");
+        Keywords.valueOf("RESTART").doAnything();
 
     }
 

@@ -14,7 +14,10 @@ public enum Keywords {
     },
     RESTART {
         public void doAnything() {
-            System.out.println("RESTART");
+            System.out.println("restart");
+            RestartApp restart = new RestartApp();
+            String[] params = {};
+            RestartApp.restart(new String[]{});
 
         }
     },
@@ -25,6 +28,7 @@ public enum Keywords {
     };
 
     abstract void doAnything();
+
 
 
 }
