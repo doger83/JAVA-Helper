@@ -6,7 +6,8 @@ import java.util.Scanner;
 import javax.swing.JTextField;
 
 public final class Keyboard {
-
+	static Scanner input = new Scanner(System.in);
+	static String strInput;
 	/**
 	 * Ask the user to input a number. Returns an integer value.
 	 * 
@@ -16,22 +17,14 @@ public final class Keyboard {
 	 * @author domininic gerweck
 	 */
 	public static int readInteger(String promptMsg, String errorMsg) {
-		Scanner input = new Scanner(System.in);
+
 		int num = 0;
-		String strInput;
 		boolean isValid = false;
 		// keep looking until valid userinput
 		while (isValid == false) {
-			// prompt the user
-			System.out.println(promptMsg);
-			// grab input from Keyboard
-			strInput = input.nextLine();
-			//check for keyword
-			tryKeyword(strInput.toUpperCase());
 			// try to convert String to int
 			try {
-				num = Integer.parseInt(strInput);
-				input.close();
+				num = Integer.parseInt(userInput(promptMsg));
 				isValid = true;
 			} catch (NumberFormatException e) {
 				System.out.println(errorMsg);
@@ -52,25 +45,15 @@ public final class Keyboard {
 	 */
 	public static int readInteger(String promptMsg, String errorMsg, int low, int high) {
 		// TODO check if low is lower than hight!
-		Scanner input = new Scanner(System.in);
 		int num = 0;
-		String strInput;
 		boolean isValid = false;
 		// keep looking until valid userinput
 		while (!isValid) {
-			// prompt the user
-			System.out.println(promptMsg);
-			System.out.printf("(%d - %d)\n", low, high);
-			// grab input from Keyboard
-			strInput = input.nextLine();
-			//check for keyword
-			tryKeyword(strInput.toUpperCase());
 			// try to convert String to int
 			try {
-				num = Integer.parseInt(strInput);
+				num = Integer.parseInt(userInput(promptMsg));
 				// check if input is in the right range
 				if (num >= low && num <= high) {
-					input.close();
 					isValid = true;
 				} else {
 					System.out.println(errorMsg);
@@ -79,7 +62,6 @@ public final class Keyboard {
 				System.out.println(errorMsg);
 			}
 		}
-
 		return num;
 	}
 
@@ -143,24 +125,15 @@ public final class Keyboard {
 	 * @author domininic gerweck/daniel neubieser
 	 */
 	public static double readDouble(String promptMsg, String errorMsg, double low, double high) {
-		Scanner input = new Scanner(System.in);
 		double num = 0;
-		String strInput;
 		boolean isValid = false;
 		// keep looking until valid userinput
 		while (!isValid) {
-			// prompt the user
-			System.out.println(promptMsg);
-			// grab input from Keyboard
-			strInput = input.nextLine();
-			//check for keyword
-			tryKeyword(strInput.toUpperCase());
 			// try to convert String to int
 			try {
-				num = Double.parseDouble(strInput);
+				num = Double.parseDouble(userInput(promptMsg));
 				// check if input is in the right range
 				if (num >= low && num <= high) {
-					input.close();
 					isValid = true;
 				} else {
 					System.out.println(errorMsg);
@@ -169,7 +142,6 @@ public final class Keyboard {
 				System.out.println(errorMsg);
 			}
 		}
-
 		return num;
 	}
 
@@ -181,21 +153,13 @@ public final class Keyboard {
 	 * @author domininic gerweck/daniel neubieser
 	 */
 	public static double readDouble(String promptMsg, String errorMsg) {
-		Scanner input = new Scanner(System.in);
 		double num = 0;
-		String strInput;
 		boolean isValid = false;
 		// keep looking until valid userinput
 		while (!isValid) {
-			// prompt the user
-			System.out.println(promptMsg);
-			// grab input from Keyboard
-			strInput = input.nextLine();
-			//check for keyword
-			tryKeyword(strInput.toUpperCase());
 			// try to convert String to int
 			try {
-				num = Double.parseDouble(strInput);
+				num = Double.parseDouble(userInput(promptMsg));
 			} catch (NumberFormatException e) {
 				System.out.println(errorMsg);
 			}
@@ -287,5 +251,32 @@ public final class Keyboard {
 			}
 		}
 		return false;
+	}
+
+	/**
+	 * Method for get UserInput and check this for valid Keywords
+	 * @param promptMsg Output for request a specified Input
+	 */
+	public static String userInput(String promptMsg){
+		System.out.println(promptMsg);
+		// grab input from Keyboard
+		strInput = input.nextLine();
+		//check for keyword
+		tryKeyword(strInput.toUpperCase());
+		return strInput;
+	}
+
+	/**
+	 * Method for get UserInput and check this for valid Keywords
+	 * print min & max values
+	 * @param promptMsg Output for request a specified Input
+	 */
+	public static String userInput(String promptMsg, int low, int high){
+		System.out.printf(promptMsg + "\n(%d - %d)\n", low, high);
+		// grab input from Keyboard
+		strInput = input.nextLine();
+		//check for keyword
+		tryKeyword(strInput.toUpperCase());
+		return strInput;
 	}
 }
