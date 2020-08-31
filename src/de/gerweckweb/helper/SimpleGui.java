@@ -28,6 +28,8 @@ public class SimpleGui extends JFrame implements ActionListener{
         add(text);
         add(label);
         add(button);
+        setSize(100,100);
+        setVisible(true);
         button.addActionListener((ActionListener) this);
         button.setActionCommand("DO");
     }

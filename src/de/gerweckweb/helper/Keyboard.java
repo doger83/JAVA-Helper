@@ -88,7 +88,7 @@ public final class Keyboard {
 	 * @param textField check this textField for valid Input (Integer) between min
 	 *                  and max
 	 * @return only Integer are possible
-	 * @author daniel neubiesser
+	 * @author daniel neubieser
 	 */
 	public static int guiReadInt(JTextField textField, int min, int max) {
 		// keep looking until valid userinput
@@ -117,7 +117,7 @@ public final class Keyboard {
 	 *
 	 * @param textField check this textField for valid Input (Integer)
 	 * @return only Integer are possible
-	 * @author daniel neubiesser
+	 * @author daniel neubieser
 	 */
 	public static int guiReadInt(JTextField textField) {
 		// keep looking until valid userinput
@@ -140,6 +140,7 @@ public final class Keyboard {
 	 * @param low determines the smallest number
 	 * @param high determines the largest number
 	 * @return returns the valid whole number entry(double)
+	 * @author domininic gerweck/daniel neubieser
 	 */
 	public static double readDouble(String promptMsg, String errorMsg, double low, double high) {
 		Scanner input = new Scanner(System.in);
@@ -177,6 +178,7 @@ public final class Keyboard {
 	 * @param promptMsg Output for request a specified Input
 	 * @param errorMsg Output tells user the errors
 	 * @return returns the valid whole number entry(double)
+	 * @author domininic gerweck/daniel neubieser
 	 */
 	public static double readDouble(String promptMsg, String errorMsg) {
 		Scanner input = new Scanner(System.in);
@@ -208,6 +210,7 @@ public final class Keyboard {
 	 * @param min determines the smallest number
 	 * @param max determines the largest number
 	 * @return only Double are possible between min max
+	 * @author daniel neubieser
 	 */
 	public static double guiReadDouble(JTextField textField, double min, double max){
 		// keep looking until valid userinput
@@ -236,6 +239,7 @@ public final class Keyboard {
 	 *
 	 * @param textField check this textField for valid Input (Double)
 	 * @return only Integer are possible
+	 * @author daniel neubieser
 	 */
 	public static Double guiReadDouble(JTextField textField){
 		// keep looking until valid userinput
@@ -257,6 +261,7 @@ public final class Keyboard {
 	 * in order to then start the Keyword - method doAnything()
 	 *
 	 * @param text input is checked for keywords
+	 * @author daniel neubieser
 	 */
 	public static void tryKeyword(String text){
 		text = text.toUpperCase();
@@ -273,6 +278,7 @@ public final class Keyboard {
 	 *
 	 * @param text Input is checked for keywords
 	 * @return is present in keywords
+	 * @author daniel neubieser
 	 */
 	public static boolean contains(String text) {
 		for (Keywords c : Keywords.values()) {

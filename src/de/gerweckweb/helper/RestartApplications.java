@@ -1,6 +1,6 @@
 package de.gerweckweb.helper;
 /**
- * @code from http://lewisleo.blogspot.com/2012/08/programmatically-restart-java.html
+ *@autor from http://lewisleo.blogspot.com/2012/08/programmatically-restart-java.html
  */
 
 import java.io.File;
@@ -19,8 +19,10 @@ public class RestartApplications {
      * Restart the current Java application
      *
      * @param runBeforeRestart some custom code to be run before restarting
-     * @throws IOException
+     * @throws IOException Signals that an I/O exception of some sort has occurred
      */
+
+    //TODO ConsolenAbfragen werden mit "restart" korrekt behandelt, Gui wird nur beendet
     public static void restartApplication(Runnable runBeforeRestart) throws IOException {
         try {
         // java binary
