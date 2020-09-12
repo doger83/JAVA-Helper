@@ -1,6 +1,7 @@
 package de.gerweckweb.helper;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 /**
  * Created with IntelliJ IDEA,
@@ -8,13 +9,23 @@ import java.io.IOException;
  * Date: 28.08.2020
  * Time: 14:41
  */
+
 public enum Keywords {
+    /**
+     * {@link Keywords# EXIT - this keyword cancels the current program }
+     */
     EXIT {
+        @Override
         public void doAnything() {
             System.exit(0);
         }
     },
+
+    /**
+     * {@link Keywords# RESTART - this keyword aborts the current program and restarts it }
+     */
     RESTART {
+        @Override
         public void doAnything() throws IOException {
             System.out.println("restart");
             String[] params = {};
@@ -22,14 +33,19 @@ public enum Keywords {
                 {
                     try {
                         KeyboardTester.main(new String[]{""});
-                    } catch (IOException ioException) {
+                    } catch (IOException | SQLException ioException) {
                         ioException.printStackTrace();
                     }
                 }
             });
         }
     },
+
+    /**
+     * {@link Keywords# CLEAR - this keyword deletes the entries }
+     */
     CLEAR {
+        @Override
         public void doAnything() {
             System.out.println("CLEAR");
             clearScreen();
@@ -37,6 +53,10 @@ public enum Keywords {
         }
     };
 
+    /**an abstract method for implementation in the respective enum entry
+     *
+     * @throws IOException Signals that an I/O exception of some sort has occurred. This class is the general class of exceptions produced by failed or interrupted I/O operations.
+     */
     abstract void doAnything() throws IOException;
 
     /**
@@ -67,7 +87,5 @@ public enum Keywords {
             System.out.println();
         }
     }
-
-
 
 }
