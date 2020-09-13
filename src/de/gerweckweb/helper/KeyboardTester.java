@@ -18,15 +18,19 @@ public class KeyboardTester {
 //
         //System.out.println("You entered tha Value: " + intInput);
 //try to check an entry for correctness in Gui
-        //SimpleGui gui = new SimpleGui("tester");
-        //gui.setSize(100,100);
-        //gui.setVisible(true);
+        SimpleGui gui = new SimpleGui("tester");
+        gui.setSize(100,100);
+        gui.setVisible(true);
 
 
 
 //try Keywords
-        int a = Keyboard.readInteger("Zahl oder Keyword", "no");
-        System.out.println(a);
+        //int a = Keyboard.readInteger("Zahl oder Keyword", "no");
+        //int a = Keyboard.readInteger("Zahl oder Keyword", "no", -1,10);
+        //double a = Keyboard.readDouble("Double", "error", -1, 12);
+        //System.out.println("zahl" + a);
+
+
 
 
 //try Databaseconnector
@@ -36,9 +40,9 @@ public class KeyboardTester {
         cb.connectDatabaseAndExecuteQuery("USE TeachSQL SELECT count(LEASEID) AS 'Entrys' FROM tblDHCPLog");
         //cb = new ConnectDatabase("localhost",1433,"Northwind",new Logins().getUsername(),new Logins().getPassword());
         cb.connectDatabaseAndExecuteQuery("USE Northwind SELECT *FROM Employees");
-//        Logins seperaterLogin = new Logins("User","Passwort");
-//        ConnectDatabase cb2 = new ConnectDatabase("localhost",1433,"TeachSQL",seperaterLogin.getUsername(),seperaterLogin.getPassword());
-//        cb2.connectDatabaseAndExecuteQuery("USE Northwind SELECT *FROM Territorys);
+        Logins seperaterLogin = new Logins("User","Passwort");
+        ConnectDatabase cb2 = new ConnectDatabase("localhost",1433,"TeachSQL",seperaterLogin.getUsername(),seperaterLogin.getPassword());
+        cb2.connectDatabaseAndExecuteQuery("USE Northwind SELECT *FROM Shippers");
 
     }
 }

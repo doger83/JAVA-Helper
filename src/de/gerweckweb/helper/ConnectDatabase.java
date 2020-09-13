@@ -123,7 +123,8 @@ public class ConnectDatabase {
     }
 
 
-    public static void getNewUserLogin() {
+//TODO   wird das benötigt?!
+    public static ConnectDatabase connectWithNewUserLogin() {
         try (Scanner sc = new Scanner(System.in)) {
             String user, pwd;
             System.out.println("Username: ");
@@ -131,11 +132,13 @@ public class ConnectDatabase {
             System.out.println("Passwort: ");
             pwd = sc.nextLine();
             Logins login = new Logins(user, pwd);
-            ConnectDatabase connectDatabase = new ConnectDatabase("localhost", 1433, "TeachSQL", login.getUsername(), login.getPassword());
+            return new ConnectDatabase("localhost", 1433, "TeachSQL", user, pwd);
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
+            return null;
         }
+
     }
 
 

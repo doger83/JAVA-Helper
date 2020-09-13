@@ -5,11 +5,15 @@ import java.util.Scanner;
 
 import javax.swing.JTextField;
 
+/**
+ * @author domininic gerweck/daniel neubieser
+ */
 public final class Keyboard {
 	static Scanner input = new Scanner(System.in);
 	static String strInput;
+
 	/**
-	 * Ask the user to input a number. Returns an integer value.
+	 * Ask the user to input a number from console. Returns an integer value.
 	 * 
 	 * @param promptMsg Output for request a specified Input
 	 * @param errorMsg  Output tells user the error
@@ -17,24 +21,12 @@ public final class Keyboard {
 	 * @author domininic gerweck
 	 */
 	public static int readInteger(String promptMsg, String errorMsg) {
-
-		int num = 0;
-		boolean isValid = false;
 		// keep looking until valid userinput
-		while (isValid == false) {
-			// try to convert String to int
-			try {
-				num = Integer.parseInt(userInput(promptMsg));
-				isValid = true;
-			} catch (NumberFormatException e) {
-				System.out.println(errorMsg);
-			}
-		}
-		return num;
+		return tryToParsoToIntBetweenMinMax(promptMsg, errorMsg, Integer.MIN_VALUE, Integer.MAX_VALUE);
 	}
 
 	/**
-	 * Asks the user to input a number in a given range. returns an integer value.
+	 * Asks the user to input a number from console in a given range. returns an integer value.
 	 * 
 	 * @param promptMsg Output for request a specified Input
 	 * @param errorMsg  Output tells user the errors
@@ -44,75 +36,24 @@ public final class Keyboard {
 	 * @author domininic gerweck
 	 */
 	public static int readInteger(String promptMsg, String errorMsg, int low, int high) {
-		// TODO check if low is lower than hight!
+		// keep looking until valid userinput
+		return tryToParsoToIntBetweenMinMax(promptMsg, errorMsg, low, high);
+	}
+
+	private static int tryToParsoToIntBetweenMinMax(String promptMsg, String errorMsg, int low, int high ) {
 		int num = 0;
 		boolean isValid = false;
-		// keep looking until valid userinput
 		while (!isValid) {
 			// try to convert String to int
 			try {
 				num = Integer.parseInt(userInput(promptMsg));
 				// check if input is in the right range
-				if (num >= low && num <= high) {
-					isValid = true;
-				} else {
-					System.out.println(errorMsg);
-				}
+				isValid = betweenMinMaxIsValid(low, high, num);
 			} catch (NumberFormatException e) {
 				System.out.println(errorMsg);
 			}
 		}
 		return num;
-	}
-
-	/**
-	 *
-	 * @param textField check this textField for valid Input (Integer) between min
-	 *                  and max
-	 * @return only Integer are possible
-	 * @author daniel neubieser
-	 */
-	public static int guiReadInt(JTextField textField, int min, int max) {
-		// keep looking until valid userinput
-		//check for keyword
-		tryKeyword(textField.getText().toUpperCase());
-		// try to convert String to int
-		try {
-			Integer.parseInt(textField.getText());
-
-		} catch (NumberFormatException e) {
-			textField.setText("Input Integer");
-		}
-		if (Integer.parseInt(textField.getText()) < min || Integer.parseInt(textField.getText()) > max) {
-			System.out.println(Integer.parseInt(textField.getText()));
-			String trash = "trash";
-			try {
-				Integer.parseInt(trash);
-			} catch (NumberFormatException e2) {
-				textField.setText("Integer between " + min + " & " + max);
-			}
-		}
-		return Integer.parseInt(textField.getText());
-	}
-
-	/**
-	 *
-	 * @param textField check this textField for valid Input (Integer)
-	 * @return only Integer are possible
-	 * @author daniel neubieser
-	 */
-	public static int guiReadInt(JTextField textField) {
-		// keep looking until valid userinput
-		//check for keyword
-		tryKeyword(textField.getText().toUpperCase());
-		// try to convert String to int
-		try {
-			Integer.parseInt(textField.getText());
-
-		} catch (NumberFormatException e) {
-			textField.setText("Input Integer");
-		}
-		return Integer.parseInt(textField.getText());
 	}
 
 	/**
@@ -125,24 +66,7 @@ public final class Keyboard {
 	 * @author domininic gerweck/daniel neubieser
 	 */
 	public static double readDouble(String promptMsg, String errorMsg, double low, double high) {
-		double num = 0;
-		boolean isValid = false;
-		// keep looking until valid userinput
-		while (!isValid) {
-			// try to convert String to int
-			try {
-				num = Double.parseDouble(userInput(promptMsg));
-				// check if input is in the right range
-				if (num >= low && num <= high) {
-					isValid = true;
-				} else {
-					System.out.println(errorMsg);
-				}
-			} catch (NumberFormatException e) {
-				System.out.println(errorMsg);
-			}
-		}
-		return num;
+		return getValueAfterCheckForValid(promptMsg, errorMsg, low, high);
 	}
 
 	/**
@@ -153,6 +77,10 @@ public final class Keyboard {
 	 * @author domininic gerweck/daniel neubieser
 	 */
 	public static double readDouble(String promptMsg, String errorMsg) {
+		return getValueAfterCheckForValid(promptMsg, errorMsg, Double.MIN_VALUE, Double.MAX_VALUE);
+	}
+
+	private static double getValueAfterCheckForValid(String promptMsg, String errorMsg, double low, double high) {
 		double num = 0;
 		boolean isValid = false;
 		// keep looking until valid userinput
@@ -160,12 +88,67 @@ public final class Keyboard {
 			// try to convert String to int
 			try {
 				num = Double.parseDouble(userInput(promptMsg));
+				// check if input is in the right range
+				isValid = betweenMinMaxIsValid(low, high, num);
+				if (!isValid) { System.out.println(errorMsg);	}
 			} catch (NumberFormatException e) {
 				System.out.println(errorMsg);
 			}
-			isValid = true;
 		}
 		return num;
+	}
+
+	private static boolean betweenMinMaxIsValid(double low, double high, double num) {
+		return num >= low && num <= high;
+	}
+
+
+	/**
+	 *
+	 * @param textField check this textField for valid Input (Integer) between min
+	 *                  and max
+	 * @return only Integer are possible
+	 * @author daniel neubieser
+	 */
+	public static int guiReadInt(JTextField textField, int min, int max) {
+		//check for keyword
+		tryKeyword(textField.getText().toUpperCase());
+		// keep looking until valid userinput
+		tryGuiValueBetweenMinMax(textField, min, max);
+		return Integer.parseInt(textField.getText());
+	}
+
+	/**
+	 *
+	 * @param textField check this textField for valid Input (Integer)
+	 * @return only Integer are possible
+	 * @author daniel neubieser
+	 */
+	public static int guiReadInt(JTextField textField) {
+		//check for keyword
+		tryKeyword(textField.getText().toUpperCase());
+		// keep looking until valid userinput
+		tryGuiValueBetweenMinMax(textField, Integer.MIN_VALUE, Integer.MAX_VALUE);
+		return Integer.parseInt(textField.getText());
+	}
+
+	private static void tryGuiValueBetweenMinMax(JTextField textField, int min, int max) {
+		// try to convert String to int
+		String toCheck = tryToParseGuiValueToInt(textField, min, max);
+
+		if (Integer.parseInt(toCheck) < min || Integer.parseInt(toCheck) > max) {
+			textField.setText("Integer between " + min + " & " + max);
+		}
+	}
+
+	private static String tryToParseGuiValueToInt(JTextField textField, int min, int max) {
+		try {
+			return String.valueOf(Integer.parseInt(textField.getText()));
+
+		} catch (NumberFormatException e) {
+			return "Integer between " + min + " & " + max;
+		}
+
 	}
 
 	/**
@@ -177,25 +160,10 @@ public final class Keyboard {
 	 * @author daniel neubieser
 	 */
 	public static double guiReadDouble(JTextField textField, double min, double max){
-		// keep looking until valid userinput
 		//check for keyword
 		tryKeyword(textField.getText().toUpperCase());
-		// try to convert String to int
-		try {
-			Double.parseDouble(textField.getText());
-
-		} catch (NumberFormatException e) {
-			textField.setText("Input Double");
-		}
-		if(Double.parseDouble(textField.getText()) < min || Double.parseDouble(textField.getText()) > max) {
-			System.out.println(Double.parseDouble(textField.getText()));
-			String trash = "trash";
-			try {
-				Double.parseDouble(trash);
-			} catch (NumberFormatException e2) {
-				textField.setText("Integer between " + min + " & " + max);
-			}
-		}
+		// keep looking until valid userinput
+		parseGuiValueToDouble(textField, min, max);
 		return Double.parseDouble(textField.getText());
 	}
 
@@ -205,18 +173,39 @@ public final class Keyboard {
 	 * @return only Integer are possible
 	 * @author daniel neubieser
 	 */
-	public static Double guiReadDouble(JTextField textField){
-		// keep looking until valid userinput
+	public static double guiReadDouble(JTextField textField){
 		//check for keyword
 		tryKeyword(textField.getText().toUpperCase());
-		// try to convert String to int
+		// keep looking until valid userinput
+		parseGuiValueToDouble(textField,Double.MIN_VALUE, Double.MAX_VALUE);
+		return Double.parseDouble(textField.getText());
+	}
+
+	private static void parseGuiValueToDouble(JTextField textField, double min, double max) {
 		try {
 			Double.parseDouble(textField.getText());
-
 		} catch (NumberFormatException e) {
-			textField.setText("Input Integer");
+			textField.setText("Input Double");
 		}
-		return Double.parseDouble(textField.getText());
+		isValidDoubleInRange(textField, min, max);
+	}
+
+	/**check text box entry for is double in valid range
+	 *
+	 * @param textField check this textField for valid Input (Double) between min, max
+	 * @param min determines the smallest number
+	 * @param max determines the largest number
+	 */
+	private static void isValidDoubleInRange(JTextField textField, double min, double max) {
+		if(Double.parseDouble(textField.getText()) < min || Double.parseDouble(textField.getText()) > max) {
+			System.out.println(Double.parseDouble(textField.getText()));
+			String trash = "trash";
+			try {
+				Double.parseDouble(textField.getText());
+			} catch (NumberFormatException e2) {
+				textField.setText("Integer between " + min + " & " + max);
+			}
+		}
 	}
 
 	/**
