@@ -28,12 +28,16 @@ public class SimpleGui extends JFrame implements ActionListener{
         add(text);
         add(label);
         add(button);
+        setSize(100,100);
+        setVisible(true);
         button.addActionListener((ActionListener) this);
         button.setActionCommand("DO");
     }
 
+    @Override
     public void actionPerformed(ActionEvent e) {
-        Keyboard.guiReadInt(text,2,3);
-        label.setText(text.getText());
+        //Keyboard.guiReadInt(text,2,3);
+        Keyboard.guiReadDouble(text,1,11);
+        label.setText(String.valueOf(Keyboard.guiReadDouble(text)));
     }
 }
