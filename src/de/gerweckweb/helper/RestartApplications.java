@@ -31,49 +31,69 @@ public class RestartApplications {
             List<String> vmArguments = ManagementFactory.getRuntimeMXBean().getInputArguments();
             StringBuilder vmArgsOneLine = new StringBuilder();
             for (String arg : vmArguments) {
-        // if it's the agent argument : we ignore it otherwise the
-        // address of the old application and the new one will be in conflict
-                if (!arg.contains("-agentlib")) {
-                    vmArgsOneLine.append(arg);
-                    vmArgsOneLine.append(" ");
-                }
+                checkArgumentForAgentLib(vmArgsOneLine, arg);
             }
         // init the command to execute, add the vm args
             final StringBuffer cmd = new StringBuffer("\"" + java + "\" " + vmArgsOneLine);
 
         // program main and program arguments
             String[] mainCommand = System.getProperty(SUN_JAVA_COMMAND).split(" ");
-        // program main is a jar
-            if (mainCommand[0].endsWith(".jar")) {
-        // if it's a jar, add -jar mainJar
-                cmd.append("-jar ").append(new File(mainCommand[0]).getPath());
-            } else {
-        // else it's a .class, add the classpath and mainClass
-                cmd.append("-cp \"").append(System.getProperty("java.class.path")).append("\" ").append(mainCommand[0]);
-            }
-        // finally add program arguments
-            for (int i = 1; i < mainCommand.length; i++) {
-                cmd.append(" ");
-                cmd.append(mainCommand[i]);
-            }
-        // execute the command in a shutdown hook, to be sure that all the
-        // resources have been disposed before restarting the application
-            Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-                try {
-                    Runtime.getRuntime().exec(cmd.toString());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }));
-        // execute some custom code before restarting
-            if (runBeforeRestart != null) {
-                runBeforeRestart.run();
-            }
-        // exit
+            checkForJarOrClassPath(cmd, mainCommand);
+            addProgramArgs(cmd, mainCommand);
+            excecuteCommandInShutdownHook(cmd);
+            exceuteSomeCostums(runBeforeRestart);
+            // exit
             System.exit(0);
         } catch (Exception e) {
         // something went wrong
             throw new IOException("Error while trying to restart the application", e);
+        }
+    }
+
+    private static void excecuteCommandInShutdownHook(StringBuffer cmd) {
+        // execute the command in a shutdown hook, to be sure that all the
+        // resources have been disposed before restarting the application
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            try {
+                Runtime.getRuntime().exec(cmd.toString());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }));
+    }
+
+    private static void exceuteSomeCostums(Runnable runBeforeRestart) {
+        // execute some custom code before restarting
+        if (runBeforeRestart != null) {
+            runBeforeRestart.run();
+        }
+    }
+
+    private static void addProgramArgs(StringBuffer cmd, String[] mainCommand) {
+        // finally add program arguments
+        for (int i = 1; i < mainCommand.length; i++) {
+            cmd.append(" ");
+            cmd.append(mainCommand[i]);
+        }
+    }
+
+    private static void checkArgumentForAgentLib(StringBuilder vmArgsOneLine, String arg) {
+        // if it's the agent argument : we ignore it otherwise the
+        // address of the old application and the new one will be in conflict
+        if (!arg.contains("-agentlib")) {
+            vmArgsOneLine.append(arg);
+            vmArgsOneLine.append(" ");
+        }
+    }
+
+    private static void checkForJarOrClassPath(StringBuffer cmd, String[] mainCommand) {
+        // program main is a jar
+        if (mainCommand[0].endsWith(".jar")) {
+        // if it's a jar, add -jar mainJar
+            cmd.append("-jar ").append(new File(mainCommand[0]).getPath());
+        } else {
+        // else it's a .class, add the classpath and mainClass
+            cmd.append("-cp \"").append(System.getProperty("java.class.path")).append("\" ").append(mainCommand[0]);
         }
     }
 }

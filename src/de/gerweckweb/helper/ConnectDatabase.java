@@ -57,12 +57,13 @@ public class ConnectDatabase {
     public void connectDatabaseAndExecuteQuery(String sql) {
 
         try (Connection con = DriverManager.getConnection(createDatabaseUrl()); Statement stmt = con.createStatement();) {
-            databaseOutputOnConsole(sql, stmt);
+            printDatabaseOutputOnConsole(sql, stmt);
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
+        //region SubMethods
 
     /**
      * With this method, the database query is output on the console
@@ -71,11 +72,11 @@ public class ConnectDatabase {
      * @param stmt executes the database query {@link java.sql.Statement} with parameter <b><i>sql</i></b>
      * @throws SQLException An <b>exception</b> that provides information on a database access error or other errors.
      */
-    private void databaseOutputOnConsole(String sql, Statement stmt) throws SQLException {
+    private void printDatabaseOutputOnConsole(String sql, Statement stmt) throws SQLException {
         ResultSet rs = stmt.executeQuery(sql);
         ResultSetMetaData rsmd = rs.getMetaData();
-        getHeading(rsmd);
-        getRequestedOutputOnConsole(rs, rsmd);
+        getHeadingText(rsmd);
+        printRequestedOutputOnConsole(rs, rsmd);
     }
 
 
@@ -86,7 +87,7 @@ public class ConnectDatabase {
      * @param rsmd an {@link java.sql.ResultSetMetaData} An object that can be used to get information about the types and properties of the columns in the ResultSet object.
      * @throws SQLException An <b>exception</b> that provides information on a database access error or other errors.
      */
-    private void getRequestedOutputOnConsole(ResultSet rs, ResultSetMetaData rsmd) throws SQLException {
+    private void printRequestedOutputOnConsole(ResultSet rs, ResultSetMetaData rsmd) throws SQLException {
         while (rs.next()) {
             for (int i = 1; i <= rsmd.getColumnCount(); i++) {
                 System.out.printf(" %32s ", rs.getString(i));
@@ -102,7 +103,7 @@ public class ConnectDatabase {
      * @param rsmd an {@link java.sql.ResultSetMetaData}
      * @throws SQLException An exception that provides information on a database access error or other errors.
      */
-    private void getHeading(ResultSetMetaData rsmd) throws SQLException {
+    private void getHeadingText(ResultSetMetaData rsmd) throws SQLException {
         for (int i = 1; i <= rsmd.getColumnCount(); i++) {
             System.out.printf(" %32s ", rsmd.getColumnName(i));
         }
@@ -122,27 +123,9 @@ public class ConnectDatabase {
         return serverAndPort + toNamedatabase;
     }
 
+    //endregion
 
-//TODO   wird das benötigt?!
-    public static ConnectDatabase connectWithNewUserLogin() {
-        try (Scanner sc = new Scanner(System.in)) {
-            String user, pwd;
-            System.out.println("Username: ");
-            user = sc.nextLine();
-            System.out.println("Passwort: ");
-            pwd = sc.nextLine();
-            Logins login = new Logins(user, pwd);
-            return new ConnectDatabase("localhost", 1433, "TeachSQL", user, pwd);
-
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            return null;
-        }
-
-    }
-
-
-    //Setter/Getter
+        //region Setter/Getter
 
     public String getServerName() {
         return serverName;
@@ -183,6 +166,29 @@ public class ConnectDatabase {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    //endregion
+
+        //region other Methods
+
+    //TODO   wird das benötigt?!
+    public static ConnectDatabase connectWithNewUserLogin() {
+        try (Scanner sc = new Scanner(System.in)) {
+            String user, pwd;
+            System.out.println("Username: ");
+            user = sc.nextLine();
+            System.out.println("Passwort: ");
+            pwd = sc.nextLine();
+            Logins login = new Logins(user, pwd);
+            return new ConnectDatabase("localhost", 1433, "TeachSQL", user, pwd);
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
+
+    }
+    //endregion
 }
 
 
